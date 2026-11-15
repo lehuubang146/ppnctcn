@@ -462,8 +462,8 @@ window.QUIZ_QUESTIONS = [
         "text": "Tất cả đều đúng"
       }
     ],
-    "answer": "B",
-    "rawAnswerLine": "Đáp án: B",
+    "answer": "D",
+    "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: D (Tất cả đều đúng)",
     "image": "assets/originals/q016.png"
   },
   {
@@ -1080,11 +1080,11 @@ window.QUIZ_QUESTIONS = [
       },
       {
         "key": "D",
-        "text": "Xác định"
+        "text": "Xác định cơ sở lý thuyết nền tảng."
       }
     ],
-    "answer": "D",
-    "rawAnswerLine": "Đáp án: D",
+    "answer": "C",
+    "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: C (Tăng cường độ tin cậy)",
     "image": "assets/originals/q039.png"
   },
   {
@@ -1137,8 +1137,8 @@ window.QUIZ_QUESTIONS = [
         "text": "Nghiên cứu về tác động của hệ thống camera giám sát trong việc giảm tỷ lệ vi phạm"
       }
     ],
-    "answer": "C",
-    "rawAnswerLine": "Đáp án: C",
+    "answer": "D",
+    "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: D (Nghiên cứu về tác động của hệ thống camera giám sát trong việc giảm tỷ lệ vi phạm)",
     "image": "assets/originals/q041.png"
   },
   {
@@ -1488,8 +1488,8 @@ window.QUIZ_QUESTIONS = [
         "text": "Thảo luận (Discussion)"
       }
     ],
-    "answer": "A",
-    "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: A",
+    "answer": "B",
+    "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: B (Đọc có chọn lọc (Scanning))",
     "image": "assets/originals/q054.png"
   },
   {
@@ -1839,8 +1839,8 @@ window.QUIZ_QUESTIONS = [
         "text": "Phương pháp Monte Carlo"
       }
     ],
-    "answer": "C",
-    "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: C",
+    "answer": "D",
+    "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: D (Phương pháp Monte Carlo)",
     "image": "assets/originals/q067.png"
   },
   {
@@ -2433,8 +2433,8 @@ window.QUIZ_QUESTIONS = [
         "text": "Vi phạm cấp phép sử dụng"
       }
     ],
-    "answer": "C",
-    "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: c",
+    "answer": "B",
+    "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: B (Vi phạm tác quyền)",
     "image": "assets/originals/q089.png"
   },
   {
