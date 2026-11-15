@@ -753,6 +753,37 @@ mark.search-hit {
   display: none;
 }
 
+.sidebar-mobile {
+  display: block;
+  margin-top: 16px;
+  padding: 16px;
+}
+
+.sidebar-mobile-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.filter-actions-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.mobile-reset-btn {
+  display: inline-flex;
+}
+
+.mobile-reset-inline {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+
 .sidebar-card {
   padding: 16px;
   position: sticky;
@@ -1214,7 +1245,16 @@ mark.search-hit {
   .sidebar-desktop {
     display: block;
   }
+  .sidebar-mobile {
+    display: none !important;
+  }
   .mobile-map-btn {
+    display: none !important;
+  }
+  .mobile-reset-btn {
+    display: none !important;
+  }
+  .mobile-reset-inline {
     display: none !important;
   }
   .nav-grid {

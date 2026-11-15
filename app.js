@@ -261,6 +261,25 @@
     `;
   }
 
+  function renderResetSectionHtml(isConfirming, scope = 'desktop') {
+    if (!isConfirming) {
+      return `
+        <button type="button" class="btn-outline btn-sm reset-ask-btn" data-reset-scope="${scope}" style="width:100%" id="${scope === 'desktop' ? 'askResetBtn' : ''}">
+          ${ICONS.reset}<span>Đặt lại tiến độ ôn tập</span>
+        </button>
+      `;
+    }
+    return `
+      <div class="reset-confirm-box">
+        <p style="margin:0 0 8px;font-size:12px;font-weight:600;color:var(--state-wrong)">Xóa toàn bộ tiến độ &amp; câu sai?</p>
+        <div style="display:flex;gap:8px">
+          <button type="button" class="btn-primary btn-sm reset-confirm-btn" data-reset-scope="${scope}" style="flex:1;background:var(--state-wrong)">Xóa hết</button>
+          <button type="button" class="btn-outline btn-sm reset-cancel-btn" data-reset-scope="${scope}" style="flex:1">Hủy</button>
+        </div>
+      </div>
+    `;
+  }
+
   // =========================================================================
   // RENDER PRACTICE MODE
   // =========================================================================
@@ -460,16 +479,6 @@
       `;
     }
 
-    const resetSection = !p.confirmReset
-      ? `<button type="button" class="btn-outline btn-sm" style="width:100%" id="askResetBtn">${ICONS.reset}<span>Đặt lại tiến độ ôn tập</span></button>`
-      : `
-        <p style="margin:0 0 8px;font-size:12px;font-weight:600;color:var(--state-wrong)">Xóa toàn bộ tiến độ &amp; câu sai?</p>
-        <div style="display:flex;gap:8px">
-          <button type="button" class="btn-primary btn-sm" style="flex:1;background:var(--state-wrong)" id="confirmResetBtn">Xóa hết</button>
-          <button type="button" class="btn-outline btn-sm" style="flex:1" id="cancelResetBtn">Hủy</button>
-        </div>
-      `;
-
     root.innerHTML = `
       <section class="card filter-strip" aria-label="Bộ lọc ôn tập">
         <div class="filter-top">
@@ -498,19 +507,42 @@
               <span>Đảo đáp án</span>
             </label>
           </div>
-          <div style="display:flex;gap:8px;align-items:center">
+          <div class="filter-actions-group">
             ${p.shuffleQuestions ? `<button type="button" class="btn-outline btn-sm" id="reshuffleBtn">${ICONS.shuffle}<span>Xáo lại</span></button>` : ''}
             <button type="button" class="btn-subtle btn-sm mobile-map-btn" id="openMobileNav">${ICONS.grid}<span>Bản đồ (${list.length})</span></button>
+            ${
+              !p.confirmReset
+                ? `<button type="button" class="btn-outline btn-sm mobile-reset-btn reset-ask-btn" data-reset-scope="top" title="Đặt lại tiến độ ôn tập">${ICONS.reset}<span>Đặt lại</span></button>`
+                : `<div class="mobile-reset-inline"><button type="button" class="btn-primary btn-sm reset-confirm-btn" style="background:var(--state-wrong);height:32px;padding:0 10px;font-size:12px">Xóa hết?</button><button type="button" class="btn-outline btn-sm reset-cancel-btn" style="height:32px;padding:0 10px;font-size:12px">Hủy</button></div>`
+            }
           </div>
         </div>
       </section>
 
       <div class="workspace-grid">
-        <div>${mainHtml}</div>
+        <div>
+          ${mainHtml}
+          <div class="card sidebar-mobile">
+            <div class="sidebar-mobile-header">
+              <span class="nav-title">Tiến độ &amp; Bản đồ câu hỏi</span>
+              <span class="tabular-nums" style="font-size:12px;color:var(--text-muted);font-weight:600">
+                ${Object.keys(state.progress.answered).length}/${QUESTIONS.length} câu đã làm
+              </span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
+              <button type="button" class="btn-subtle" id="openMobileNavBottom" style="width:100%;height:38px;justify-content:center">
+                ${ICONS.grid}<span>Mở bản đồ 107 câu</span>
+              </button>
+              <div class="reset-box" style="margin-top:4px;padding-top:10px">
+                ${renderResetSectionHtml(p.confirmReset, 'mobile-card')}
+              </div>
+            </div>
+          </div>
+        </div>
         <aside class="sidebar-desktop">
           <div class="card sidebar-card">
             ${renderNavGridHtml(navItems, 'Bản đồ câu hỏi')}
-            <div class="reset-box">${resetSection}</div>
+            <div class="reset-box">${renderResetSectionHtml(p.confirmReset, 'desktop')}</div>
           </div>
         </aside>
       </div>
@@ -583,11 +615,15 @@
       });
     }
 
-    const openMobileNav = root.querySelector('#openMobileNav');
-    if (openMobileNav) {
-      openMobileNav.addEventListener('click', () => {
-        const body = document.getElementById('navModalBody');
-        body.innerHTML = renderNavGridHtml(navItems, 'Chọn câu hỏi nhanh');
+    function openPracticeNavModal() {
+      const body = document.getElementById('navModalBody');
+      const renderModalBody = () => {
+        body.innerHTML = `
+          ${renderNavGridHtml(navItems, 'Chọn câu hỏi nhanh')}
+          <div class="reset-box" style="margin-top:16px;padding-top:14px">
+            ${renderResetSectionHtml(state.practice.confirmReset, 'modal')}
+          </div>
+        `;
         body.querySelectorAll('[data-nav-idx]').forEach((cell) => {
           cell.addEventListener('click', () => {
             state.practice.currentIndex = Number(cell.getAttribute('data-nav-idx'));
@@ -595,8 +631,43 @@
             render();
           });
         });
-        document.getElementById('navModal').classList.remove('hidden');
-      });
+        body.querySelectorAll('.reset-ask-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.practice.confirmReset = true;
+            renderModalBody();
+          });
+        });
+        body.querySelectorAll('.reset-cancel-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.practice.confirmReset = false;
+            renderModalBody();
+          });
+        });
+        body.querySelectorAll('.reset-confirm-btn').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            state.progress = { answered: {}, wrongIds: [], flaggedIds: [] };
+            state.practice.revealedIds = {};
+            state.practice.proofOpenIds = {};
+            state.practice.confirmReset = false;
+            state.practice.currentIndex = 0;
+            saveProgress();
+            closeModals();
+            render();
+          });
+        });
+      };
+      renderModalBody();
+      document.getElementById('navModal').classList.remove('hidden');
+    }
+
+    const openMobileNav = root.querySelector('#openMobileNav');
+    if (openMobileNav) {
+      openMobileNav.addEventListener('click', openPracticeNavModal);
+    }
+
+    const openMobileNavBottom = root.querySelector('#openMobileNavBottom');
+    if (openMobileNavBottom) {
+      openMobileNavBottom.addEventListener('click', openPracticeNavModal);
     }
 
     root.querySelectorAll('[data-nav-idx]').forEach((cell) => {
@@ -616,25 +687,22 @@
       });
     }
 
-    const askReset = root.querySelector('#askResetBtn');
-    if (askReset) {
-      askReset.addEventListener('click', () => {
+    root.querySelectorAll('.reset-ask-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
         state.practice.confirmReset = true;
         render();
       });
-    }
+    });
 
-    const cancelReset = root.querySelector('#cancelResetBtn');
-    if (cancelReset) {
-      cancelReset.addEventListener('click', () => {
+    root.querySelectorAll('.reset-cancel-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
         state.practice.confirmReset = false;
         render();
       });
-    }
+    });
 
-    const confirmReset = root.querySelector('#confirmResetBtn');
-    if (confirmReset) {
-      confirmReset.addEventListener('click', () => {
+    root.querySelectorAll('.reset-confirm-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
         state.progress = { answered: {}, wrongIds: [], flaggedIds: [] };
         state.practice.revealedIds = {};
         state.practice.proofOpenIds = {};
@@ -643,7 +711,7 @@
         saveProgress();
         render();
       });
-    }
+    });
 
     if (!q) return;
 
