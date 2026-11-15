@@ -11,7 +11,7 @@ window.QUIZ_TOPICS = [
     "id": "literature",
     "label": "Tổng quan tài liệu & Đọc ghi chú",
     "shortLabel": "Tổng quan & SQ3R",
-    "count": 27
+    "count": 28
   },
   {
     "id": "math-data",
@@ -2922,5 +2922,32 @@ window.QUIZ_QUESTIONS = [
     "answer": "C",
     "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: c",
     "image": "assets/originals/q107.png"
+  },
+  {
+    "id": 108,
+    "topicId": "literature",
+    "topicLabel": "Tổng quan tài liệu & Đọc ghi chú",
+    "question": "Trong kỹ thuật Đọc theo lớp (Layered Reading)', bước đầu tiên là gì?",
+    "options": [
+      {
+        "key": "A",
+        "text": "Đọc lướt (Skimming)"
+      },
+      {
+        "key": "B",
+        "text": "Đọc có chọn lọc (Scanning)"
+      },
+      {
+        "key": "C",
+        "text": "Đọc chuyên sâu (Deep Reading)"
+      },
+      {
+        "key": "D",
+        "text": "Thảo luận (Discussion)."
+      }
+    ],
+    "answer": "A",
+    "rawAnswerLine": "✓ ĐÁP ÁN ĐÚNG: A",
+    "image": "assets/originals/q108.png"
   }
 ];

@@ -30,7 +30,7 @@
   const PRESETS = [
     { id: 'quick', title: 'Đề nhanh 30 câu', count: 30, minutes: 20, desc: 'Kiểm tra phản xạ nhanh theo giờ thi' },
     { id: 'standard', title: 'Đề tiêu chuẩn 50 câu', count: 50, minutes: 35, desc: 'Mô phỏng cấu trúc đề thi học phần' },
-    { id: 'full', title: 'Full 107 câu', count: 107, minutes: 70, desc: 'Tổng duyệt toàn bộ ngân hàng câu hỏi' }
+    { id: 'full', title: `Toàn bộ ${QUESTIONS.length} câu`, count: QUESTIONS.length, minutes: 70, desc: 'Tổng duyệt toàn bộ ngân hàng câu hỏi' }
   ];
 
   const state = {
@@ -335,7 +335,7 @@
     let mainHtml = '';
     if (!q) {
       let emptyTitle = 'Không có câu hỏi nào phù hợp bộ lọc';
-      let emptyDesc = 'Hãy chuyển lại bộ lọc Tất cả để ôn tập tiếp toàn bộ 107 câu.';
+      let emptyDesc = `Hãy chuyển lại bộ lọc Tất cả để ôn tập tiếp toàn bộ ${QUESTIONS.length} câu.`;
       if (p.smart === 'wrong') {
         emptyTitle = 'Chưa có câu nào trong mục Câu làm sai';
         emptyDesc = 'Khi bạn chọn sai một câu trong lúc ôn luyện, câu đó sẽ tự động lưu tại đây để bạn luyện lại.';
@@ -351,7 +351,7 @@
           <div style="color:var(--state-correct);margin-bottom:10px">${ICONS.check}</div>
           <h2 style="margin:0 0 6px;font-size:16px">${emptyTitle}</h2>
           <p style="margin:0 auto 18px;max-width:440px;font-size:14px;color:var(--text-secondary)">${emptyDesc}</p>
-          <button type="button" class="btn-primary" id="resetFilterBtn">Quay lại tất cả 107 câu</button>
+          <button type="button" class="btn-primary" id="resetFilterBtn">Quay lại tất cả ${QUESTIONS.length} câu</button>
         </div>
       `;
     } else {
@@ -484,7 +484,7 @@
         <div class="filter-top">
           <div class="pill-group">${smartButtons}</div>
           <select id="practiceTopicSel" class="select-control" aria-label="Lọc theo chuyên đề">
-            <option value="all" ${p.topic === 'all' ? 'selected' : ''}>Tất cả 5 chuyên đề (107 câu)</option>
+            <option value="all" ${p.topic === 'all' ? 'selected' : ''}>Tất cả 5 chuyên đề (${QUESTIONS.length} câu)</option>
             ${topicOptions}
           </select>
         </div>
@@ -531,7 +531,7 @@
             </div>
             <div style="display:flex;flex-direction:column;gap:10px;margin-top:10px">
               <button type="button" class="btn-subtle" id="openMobileNavBottom" style="width:100%;height:38px;justify-content:center">
-                ${ICONS.grid}<span>Mở bản đồ 107 câu</span>
+                ${ICONS.grid}<span>Mở bản đồ (${QUESTIONS.length} câu)</span>
               </button>
               <div class="reset-box" style="margin-top:4px;padding-top:10px">
                 ${renderResetSectionHtml(p.confirmReset, 'mobile-card')}
@@ -886,7 +886,7 @@
         <section class="card exam-setup">
           <h2 style="margin:0 0 6px;font-size:18px">Thiết lập bài thi thử tính giờ</h2>
           <p style="margin:0;font-size:14px;color:var(--text-secondary)">
-            Các câu hỏi được trộn ngẫu nhiên từ bộ 107 câu gốc. Ảnh đối chiếu và đáp án sẽ ẩn trong khi làm bài và hiển thị đầy đủ sau khi nộp.
+            Các câu hỏi được trộn ngẫu nhiên từ bộ ${QUESTIONS.length} câu gốc. Ảnh đối chiếu và đáp án sẽ ẩn trong khi làm bài và hiển thị đầy đủ sau khi nộp.
           </p>
 
           <div class="preset-grid">${presetsHtml}</div>
@@ -1324,7 +1324,7 @@
           <div class="search-row">
             <div class="search-box">
               <span class="search-icon">${ICONS.search}</span>
-              <input type="search" id="bankSearchInput" class="search-input" value="${escapeHtml(b.query)}" placeholder="Tìm từ khóa (ví dụ: SQ3R, LaTeX, đạo văn, 103)..." aria-label="Tìm kiếm trong 107 câu hỏi" />
+              <input type="search" id="bankSearchInput" class="search-input" value="${escapeHtml(b.query)}" placeholder="Tìm từ khóa (ví dụ: SQ3R, LaTeX, đạo văn, 103)..." aria-label="Tìm kiếm trong ${QUESTIONS.length} câu hỏi" />
             </div>
             <button type="button" class="btn-outline" id="toggleAllAnsBtn" style="height:40px">
               ${b.showAllAnswers ? ICONS.eyeOff : ICONS.eye}<span>${b.showAllAnswers ? 'Ẩn đáp án để tự nhẩm' : 'Hiện tất cả đáp án'}</span>
